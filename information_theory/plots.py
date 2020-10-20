@@ -1,34 +1,29 @@
 import information_theory.config as config
 
-from collections import Counter
-
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
 
 def plot_binnings(data):
-    
     N = data.shape[0]
-    
+
     states_vector = range(1, config.NUM_STATES + 1)
-    
-    # Uniform bin width 
+
+    # Uniform bin width
     width_hist, width_bin = np.histogram(data, bins=config.NUM_STATES)
 
     # Uniform bin count
     sorted_data = sorted(data)
-    total_bins = [sorted_data[idx * N // config.NUM_STATES] if idx != config.NUM_STATES else sorted_data[idx * N // config.NUM_STATES - 1] 
+    total_bins = [sorted_data[idx * N // config.NUM_STATES] if idx != config.NUM_STATES else sorted_data[idx * N // config.NUM_STATES - 1]
                   for idx in range(0, config.NUM_STATES + 1)]
 
     count_hist, count_bin = np.histogram(data, bins=total_bins)
-    
+
     fig = plt.figure(figsize=(10, 6))
     outer = gridspec.GridSpec(2, 4, wspace=0.6, hspace=0.4)
 
-    grid0 = gridspec.GridSpecFromSubplotSpec(3, 1,
-                    subplot_spec=outer[0:2], wspace=0.1, hspace=0.6)
+    grid0 = gridspec.GridSpecFromSubplotSpec(3, 1, subplot_spec=outer[0:2], wspace=0.1, hspace=0.6)
 
     # Uniform widths Bins
     ax00 = plt.Subplot(fig, grid0[0])
@@ -37,7 +32,7 @@ def plot_binnings(data):
         widths = diff_width[idx - 1]
         starts = width_bin[idx - 1]
         ax00.barh(0, width=widths, left=starts, color=config.COLORS[idx - 1])
-    ax00.set_xlim([min(data)-0.5, max(data)+0.5])
+    ax00.set_xlim([min(data) - 0.5, max(data) + 0.5])
     ax00.set_ylim([-0.4, 0.4])  # Default height = 0.8
     ax00.set_title('Uniform Width Bins')
     ax00.axis('off')
@@ -49,7 +44,7 @@ def plot_binnings(data):
         widths = diff_count[idx - 1]
         starts = count_bin[idx - 1]
         ax01.barh(0, width=widths, left=starts, color=config.COLORS[idx - 1])
-    ax01.set_xlim([min(data)-0.5, max(data)+0.5])
+    ax01.set_xlim([min(data) - 0.5, max(data) + 0.5])
     ax01.set_ylim([-0.4, 0.4])
     ax01.set_title('Uniform Count Bins')
     ax01.axis('off')
@@ -57,14 +52,12 @@ def plot_binnings(data):
     # Individual observations
     ax02 = plt.Subplot(fig, grid0[2])
     ax02.eventplot(data, colors='k')
-    ax02.set_xlim([min(data)-0.5, max(data)+0.5])
+    ax02.set_xlim([min(data) - 0.5, max(data) + 0.5])
     ax02.set_ylim([0.5, 1.5])
     ax02.set_title('Individual Observations')
     ax02.axis('off')
 
-
-    grid2 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[4:6], wspace=0.1, hspace=0.5)
+    grid2 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=outer[4:6], wspace=0.1, hspace=0.5)
 
     ax2 = plt.Subplot(fig, grid2[0])
     width, bins = np.histogram(data, bins=30)
@@ -73,10 +66,8 @@ def plot_binnings(data):
     ax2.set_ylim([0, 2 * max(width)])
     ax2.set_xlabel('Experimental value')
     ax2.set_ylabel('Counts')
-    
-    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[2:4], wspace=0.1, hspace=0.5)
 
+    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=outer[2:4], wspace=0.1, hspace=0.5)
 
     # Uniform bin width plot
     ax1 = plt.Subplot(fig, grid1[0])
@@ -87,14 +78,12 @@ def plot_binnings(data):
     ax1.set_title('Uniform Bin Width Discretized Data')
     ax1.set_xticks(states_vector)
 
-
     # Uniform bin count plot
-    grid3 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[6:], wspace=0.1, hspace=0.5)
+    grid3 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=outer[6:], wspace=0.1, hspace=0.5)
 
     ax3 = plt.Subplot(fig, grid3[0])
     sorted_data = sorted(data)
-    total_bins = [sorted_data[idx * N // config.NUM_STATES] if idx != config.NUM_STATES else sorted_data[idx * N // config.NUM_STATES - 1] 
+    total_bins = [sorted_data[idx * N // config.NUM_STATES] if idx != config.NUM_STATES else sorted_data[idx * N // config.NUM_STATES - 1]
                   for idx in range(0, config.NUM_STATES + 1)]
 
     count_hist, count_bin = np.histogram(data, bins=total_bins)
@@ -103,7 +92,7 @@ def plot_binnings(data):
     ax3.set_xlabel('State')
     ax3.set_ylabel('Probability')
     ax3.set_title('Uniform Bin Count Discretized Data')
-    
+
     xlim = ax2.get_xlim()
 
     ax00.set_xlim(xlim)
@@ -118,21 +107,16 @@ def plot_binnings(data):
     fig.add_subplot(ax3)
 
     plt.show()
-    
+
+
 def plot_entropy(probabilities, models_entropy):
 
     states_vector = range(1, probabilities[0].shape[0] + 1)
     config.NUM_MODELS = 3
 
-    
-    # f, ax = plt.subplots(1, config.NUM_MODELS + 1, figsize=(20, 4))
-
     fig = plt.figure(figsize=(20, 4))
 
     outer = gridspec.GridSpec(1, 4, wspace=0.2, hspace=0.3)
-
-    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3,
-                    subplot_spec=outer[0:3], wspace=0.2, hspace=0.6)    
 
     for i in range(config.NUM_MODELS):
         ax0 = plt.Subplot(fig, outer[i])
@@ -143,20 +127,18 @@ def plot_entropy(probabilities, models_entropy):
         ax0.set_title(f'Model {i+1}:\nProbability Distribution')
         fig.add_subplot(ax0)
 
-    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[3], wspace=0.5, hspace=0.6)
-    
     ax1 = plt.Subplot(fig, outer[3])
 
-    ax1.bar(range(1, config.NUM_MODELS+1), models_entropy, color=config.COLORS)
-    ax1.set_xticks(range(1, config.NUM_MODELS+1))
+    ax1.bar(range(1, config.NUM_MODELS + 1), models_entropy, color=config.COLORS)
+    ax1.set_xticks(range(1, config.NUM_MODELS + 1))
     ax1.set_xlabel('Model')
     ax1.set_ylabel('Entropy (bits)')
     ax1.set_title('Example Entropy Values')
-    
+
     fig.add_subplot(ax1)
 
     plt.show()
+
 
 def plot_joint_entropy(probabilities, models_joint_entropy):
 
@@ -170,8 +152,7 @@ def plot_joint_entropy(probabilities, models_joint_entropy):
 
     outer = gridspec.GridSpec(1, 5, wspace=0.2, hspace=0.3)
 
-    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3,
-                    subplot_spec=outer[0:3], wspace=0.3, hspace=0.6)
+    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=outer[0:3], wspace=0.3, hspace=0.6)
 
     ax0 = plt.Subplot(fig, outer[0:3])
     ax0.axis('off')
@@ -206,13 +187,10 @@ def plot_joint_entropy(probabilities, models_joint_entropy):
     ax02.set_zlabel('Probability')
     ax02.set_title('Model 3')
 
-    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[3:], wspace=0.1, hspace=0.6)
+    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=outer[3:], wspace=0.1, hspace=0.6)
 
     ax1 = plt.Subplot(fig, grid1[0], aspect=1.2)
-
-
-    ax1.bar(range(1, config.NUM_MODELS +1), models_joint_entropy, color=config.COLORS)
+    ax1.bar(range(1, config.NUM_MODELS + 1), models_joint_entropy, color=config.COLORS)
     ax1.set_xticks(range(1, config.NUM_MODELS + 1))
     ax1.set_xlabel('Model')
     ax1.set_ylabel('Joint Entropy (bits)')
@@ -221,6 +199,7 @@ def plot_joint_entropy(probabilities, models_joint_entropy):
     fig.add_subplot(ax1)
 
     plt.show()
+
 
 def plot_conditional_entropy(probabilities, models_conditional_entropy):
 
@@ -234,8 +213,7 @@ def plot_conditional_entropy(probabilities, models_conditional_entropy):
 
     outer = gridspec.GridSpec(1, 5, wspace=0.2, hspace=0.3)
 
-    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3,
-                    subplot_spec=outer[0:3], wspace=0.3, hspace=0.6)
+    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=outer[0:3], wspace=0.3, hspace=0.6)
 
     ax0 = plt.Subplot(fig, outer[0:3])
     ax0.axis('off')
@@ -270,8 +248,7 @@ def plot_conditional_entropy(probabilities, models_conditional_entropy):
     ax02.set_zlabel('Probability')
     ax02.set_title('Model 3')
 
-    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[3:], wspace=0.1, hspace=0.6)
+    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=outer[3:], wspace=0.1, hspace=0.6)
 
     ax1 = plt.Subplot(fig, grid1[0], aspect=2.4)
 
@@ -285,6 +262,7 @@ def plot_conditional_entropy(probabilities, models_conditional_entropy):
 
     plt.show()
 
+
 def plot_mutual_information(probabilities, models_mutual_information):
 
     xx, yy = np.meshgrid(range(1, 3), range(1, 3))
@@ -297,8 +275,7 @@ def plot_mutual_information(probabilities, models_mutual_information):
 
     outer = gridspec.GridSpec(1, 5, wspace=0.2, hspace=0.3)
 
-    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3,
-                    subplot_spec=outer[0:3], wspace=0.3, hspace=0.6)
+    grid0 = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=outer[0:3], wspace=0.3, hspace=0.6)
 
     ax0 = plt.Subplot(fig, outer[0:3])
     ax0.axis('off')
@@ -333,8 +310,7 @@ def plot_mutual_information(probabilities, models_mutual_information):
     ax02.set_zlabel('Probability')
     ax02.set_title('Model 3')
 
-    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1,
-                    subplot_spec=outer[3:], wspace=0.1, hspace=0.6)
+    grid1 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=outer[3:], wspace=0.1, hspace=0.6)
 
     ax1 = plt.Subplot(fig, grid1[0], aspect=2.4)
 
@@ -342,11 +318,12 @@ def plot_mutual_information(probabilities, models_mutual_information):
     ax1.set_xticks(range(1, config.NUM_MODELS + 1))
     ax1.set_xlabel('Model')
     ax1.set_ylabel('Mutual Information (bits)')
-    ax1.set_title('Example Mutual\Information Values')
+    ax1.set_title('Example Mutual\nInformation Values')
 
     fig.add_subplot(ax1)
 
     plt.show()
+
 
 def plot_linear_and_nonlinear(data, models_correlations, models_mutual_information):
 
@@ -379,8 +356,7 @@ def plot_linear_and_nonlinear(data, models_correlations, models_mutual_informati
     ax2.set_ylabel('Y Variable')
     ax2.set_title('Model 3\nNonlinear Interaction')
 
-    grid = gridspec.GridSpecFromSubplotSpec(2, 1,
-                    subplot_spec=outer[3], wspace=0.3, hspace=0.2)
+    grid = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=outer[3], wspace=0.3, hspace=0.2)
 
     ax3 = plt.Subplot(fig, outer[3])
     ax3.axis('off')
@@ -406,6 +382,7 @@ def plot_linear_and_nonlinear(data, models_correlations, models_mutual_informati
 
     plt.show()
 
+
 def plot_transfer_entropy(N, spikes, models_transfer_entropy):
 
     spikes_X1, spikes_Y1 = spikes[0]
@@ -418,8 +395,7 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
     outer = gridspec.GridSpec(4, 5, wspace=0.5, hspace=0.5)
 
     # First
-    grid0 = gridspec.GridSpecFromSubplotSpec(2, 1,
-                    subplot_spec=outer[0, 0:3], wspace=0.3, hspace=0)
+    grid0 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=outer[0, 0:3], wspace=0.3, hspace=0)
 
     ax00 = plt.Subplot(fig, grid0[0])
     ax00.eventplot(spikes_Y1, color=config.COLORS[0])
@@ -442,8 +418,7 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
     fig.add_subplot(ax01)
 
     # Second
-    grid1 = gridspec.GridSpecFromSubplotSpec(2, 1,
-                    subplot_spec=outer[1, :3], wspace=0.3, hspace=0)
+    grid1 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=outer[1, :3], wspace=0.3, hspace=0)
 
     ax10 = plt.Subplot(fig, grid1[0])
     ax10.eventplot(spikes_Y2, color=config.COLORS[1])
@@ -465,10 +440,8 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
     fig.add_subplot(ax10)
     fig.add_subplot(ax11)
 
-
     # Third
-    grid2 = gridspec.GridSpecFromSubplotSpec(2, 1,
-                    subplot_spec=outer[2, :3], wspace=0.3, hspace=0)
+    grid2 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=outer[2, :3], wspace=0.3, hspace=0)
 
     ax20 = plt.Subplot(fig, grid2[0])
     ax20.eventplot(spikes_Y3, color=config.COLORS[2])
@@ -490,10 +463,8 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
     fig.add_subplot(ax20)
     fig.add_subplot(ax21)
 
-
     # Fourth
-    grid3 = gridspec.GridSpecFromSubplotSpec(2, 1,
-                    subplot_spec=outer[3, :3], wspace=0.3, hspace=0)
+    grid3 = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=outer[3, :3], wspace=0.3, hspace=0)
 
     ax30 = plt.Subplot(fig, grid3[0])
     ax30.eventplot(spikes_Y4, color=config.COLORS[3])
@@ -514,7 +485,7 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
 
     # Transfer entropy
     ax4 = plt.Subplot(fig, outer[:, 3:])
-    ax4.bar(range(1, config.NUM_SPIKE_MODELS+1), models_transfer_entropy, color=config.COLORS)
+    ax4.bar(range(1, config.NUM_SPIKE_MODELS + 1), models_transfer_entropy, color=config.COLORS)
     ax4.set_xlabel('Model')
     ax4.set_title('Entropy Transfer\n' + r'Entropy(X $\rightarrow$ Y) Values')
 
@@ -523,6 +494,7 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
     fig.add_subplot(ax4)
 
     plt.show()
+
 
 def plot_biases(N, entropy_true, entropy_sampled, mutual_information_true, mutual_information_sampled):
 
@@ -538,11 +510,11 @@ def plot_biases(N, entropy_true, entropy_sampled, mutual_information_true, mutua
     ax[0].plot(N, len(N) * [entropy_low_true], color=config.COLORS[0], linestyle='--')
     ax[0].plot(N, len(N) * [entropy_high_true], color=config.COLORS[1], linestyle='--')
     ax[0].fill_between(N, entropy_low_sampled.min(axis=0), entropy_low_sampled.max(axis=0), color=config.COLORS[0], alpha=0.2)
-    ax[0].fill_between(N, np.quantile(entropy_low_sampled, 0.25, axis=0), 
-                    np.quantile(entropy_low_sampled, 0.75, axis=0) , color=config.COLORS[0], alpha=0.2)
+    ax[0].fill_between(N, np.quantile(entropy_low_sampled, 0.25, axis=0),
+                       np.quantile(entropy_low_sampled, 0.75, axis=0), color=config.COLORS[0], alpha=0.2)
     ax[0].fill_between(N, entropy_high_sampled.min(axis=0), entropy_high_sampled.max(axis=0), color=config.COLORS[1], alpha=0.2)
-    ax[0].fill_between(N, np.quantile(entropy_high_sampled, 0.25, axis=0), 
-                    np.quantile(entropy_high_sampled, 0.75, axis=0) , color=config.COLORS[1], alpha=0.2)
+    ax[0].fill_between(N, np.quantile(entropy_high_sampled, 0.25, axis=0),
+                       np.quantile(entropy_high_sampled, 0.75, axis=0), color=config.COLORS[1], alpha=0.2)
 
     ax[0].set_xscale('log')
     ax[0].set_xlim([10, 1e3])
@@ -557,11 +529,11 @@ def plot_biases(N, entropy_true, entropy_sampled, mutual_information_true, mutua
     ax[1].plot(N, len(N) * [mutual_information_low_true], color=config.COLORS[2], linestyle='--')
     ax[1].plot(N, len(N) * [mutual_information_high_true], color=config.COLORS[3], linestyle='--')
     ax[1].fill_between(N, mutual_information_low_sampled.min(axis=0), mutual_information_low_sampled.max(axis=0), color=config.COLORS[2], alpha=0.2)
-    ax[1].fill_between(N, np.quantile(mutual_information_low_sampled, 0.25, axis=0), 
-                    np.quantile(mutual_information_low_sampled, 0.75, axis=0) , color=config.COLORS[2], alpha=0.2)
+    ax[1].fill_between(N, np.quantile(mutual_information_low_sampled, 0.25, axis=0),
+                       np.quantile(mutual_information_low_sampled, 0.75, axis=0), color=config.COLORS[2], alpha=0.2)
     ax[1].fill_between(N, mutual_information_high_sampled.min(axis=0), mutual_information_high_sampled.max(axis=0), color=config.COLORS[3], alpha=0.2)
-    ax[1].fill_between(N, np.quantile(mutual_information_high_sampled, 0.25, axis=0), 
-                    np.quantile(mutual_information_high_sampled, 0.75, axis=0) , color=config.COLORS[3], alpha=0.2)
+    ax[1].fill_between(N, np.quantile(mutual_information_high_sampled, 0.25, axis=0),
+                       np.quantile(mutual_information_high_sampled, 0.75, axis=0), color=config.COLORS[3], alpha=0.2)
 
     ax[1].set_xscale('log')
     ax[1].set_xlim([10, 1e3])
