@@ -8,6 +8,17 @@ from tqdm import tqdm
 
 
 def entropy_bias(probabilities, N, num_simulations):
+    """
+    Computes the entropy biases sampling from probabilities.
+
+    Args:
+        probabilities (list): Probabilities for each model.
+        N (int): Number of observations.
+        num_simulations (int): Number of simulations per each observation.
+
+    Returns:
+        list: Entropy for each observation.
+    """
     entropy_low_sampled = np.zeros((num_simulations, len(N)))
     entropy_high_sampled = np.zeros((num_simulations, len(N)))
 
@@ -31,6 +42,17 @@ def entropy_bias(probabilities, N, num_simulations):
 
 
 def mutual_information_bias(probabilities, N, num_simulations):
+    """
+    Computes the mutual information bias sampling from probabilities.
+    
+    Args:
+        probabilities (list): Probabilities for each model.
+        N (int): Number of observations.
+        num_simulations (int): Number of simulations per each observation.
+
+    Returns:
+        list: Mutual information for each observation.
+    """
     mutual_information_low_sampled = np.zeros((num_simulations, len(N)))
     mutual_information_high_sampled = np.zeros((num_simulations, len(N)))
 

@@ -8,18 +8,45 @@ np.seterr(divide='ignore', invalid='ignore')
 
 
 def entropy(P):
+    """
+    Calculates entropy in probability distribution P.
+
+    Args:
+        P (np.array): Probability distribution.
+
+    Returns:
+        float: Entropy of P.
+    """
     P_nan = P.copy()
     P_nan[P_nan == 0] = np.nan
     return np.nansum(np.multiply(P_nan, np.log2(1 / P_nan)))
 
 
 def joint_entropy(P):
+    """
+    Calculates joint entropy in joint probability distribution P.
+
+    Args:
+        P (np.array): Probability distribution table.
+
+    Returns:
+        float: Joint entropy of P.
+    """
     P_nan = P.copy()
     P_nan[P_nan == 0] = np.nan
     return np.nansum(np.multiply(P_nan, np.log2(1 / P_nan)))
 
 
 def conditional_entropy(P):
+    """
+    Calculates conditional entropy in joint probability distribution P.
+
+    Args:
+        P (np.array): Probability distribution table.
+
+    Returns:
+        float: Conditional entropy of P.
+    """
     P_nan = P.copy()
     P_nan[P_nan == 0] = np.nan
 
@@ -30,6 +57,15 @@ def conditional_entropy(P):
 
 
 def mutual_information_from_table(P):
+    """
+    Calculates mutual information in joint probability distribution P.
+
+    Args:
+        P (np.array): Probability distribution table.
+
+    Returns:
+        float: Mutual information of P.
+    """
     P_nan = P.copy()
     P_nan[P_nan == 0] = np.nan
 
@@ -40,6 +76,17 @@ def mutual_information_from_table(P):
 
 
 def mutual_information_from_data(X, Y, num_bins):
+    """
+    Calculates mutual information between time series X and Y using uniform count bins.
+
+    Args:
+        X (np.array): Data of X.
+        Y (np.array): Data of Y.
+        num_bins (int): Number of bins for histogram.
+
+    Returns:
+        float: Mutual information between X and Y.
+    """
     N = X.size
     delta = 10e-10
 
@@ -68,6 +115,16 @@ def mutual_information_from_data(X, Y, num_bins):
 
 
 def transfer_entropy(X, Y):
+    """
+    Calculates transfer entropy between time series X and Y.
+
+    Args:
+        X (np.array): Data of X.
+        Y (np.array): Data of Y.
+
+    Returns:
+        float: Transfer entropy between X and Y.
+    """
     coords = Counter(zip(Y[1:], X[:-1], Y[:-1]))
 
     p_dist = np.zeros((config.NUM_STATES, config.NUM_STATES, config.NUM_STATES))

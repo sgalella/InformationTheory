@@ -6,6 +6,12 @@ import matplotlib.gridspec as gridspec
 
 
 def plot_binnings(data):
+    """
+    Replicates figure 2 from A Tutorial for Information Theory in Neuroscience.
+
+    Args:
+        data (np.array): Sampled data points.
+    """
     N = data.shape[0]
 
     states_vector = range(1, config.NUM_STATES + 1)
@@ -110,7 +116,13 @@ def plot_binnings(data):
 
 
 def plot_entropy(probabilities, models_entropy):
+    """
+    Replicates figure 3 from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        probabilities (list): Probabilities for each model.
+        models_entropy (list): Entropy for each model.
+    """
     states_vector = range(1, probabilities[0].shape[0] + 1)
     config.NUM_MODELS = 3
 
@@ -141,7 +153,13 @@ def plot_entropy(probabilities, models_entropy):
 
 
 def plot_joint_entropy(probabilities, models_joint_entropy):
+    """
+    Replicates figure 4 using joint entropy from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        probabilities (list): Probabilities for each model.
+        models_joint_entropy (list): Joint entropy for each model.
+    """
     xx, yy = np.meshgrid(range(1, 3), range(1, 3))
     x, y = np.ravel(xx), np.ravel(yy)
     x = x - config.WIDTH / 2
@@ -202,7 +220,13 @@ def plot_joint_entropy(probabilities, models_joint_entropy):
 
 
 def plot_conditional_entropy(probabilities, models_conditional_entropy):
+    """
+    Replicates figure 4 using conditional entropy from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        probabilities (list): Probabilities for each model.
+        models_conditional_entropy (list): Conditional entropy for each model.
+    """
     xx, yy = np.meshgrid(range(1, 3), range(1, 3))
     x, y = np.ravel(xx), np.ravel(yy)
     x = x - config.WIDTH / 2
@@ -264,7 +288,13 @@ def plot_conditional_entropy(probabilities, models_conditional_entropy):
 
 
 def plot_mutual_information(probabilities, models_mutual_information):
+    """
+    Replicates figure 4 from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        probabilities (list): Probabilities for each model.
+        models_mutual_information (list): Mutual information for each model.
+    """
     xx, yy = np.meshgrid(range(1, 3), range(1, 3))
     x, y = np.ravel(xx), np.ravel(yy)
     x = x - config.WIDTH / 2
@@ -326,7 +356,14 @@ def plot_mutual_information(probabilities, models_mutual_information):
 
 
 def plot_linear_and_nonlinear(data, models_correlations, models_mutual_information):
+    """
+    Replicates figure 5 from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        data (np.array): Sampled data points.
+        models_correlations (list): Correlations for each model.
+        models_mutual_information (list): Correlations for each model.
+    """
     X_linear, Y_linear = data[0]
     X_nonlinear1, Y_nonlinear1 = data[1]
     X_nonlinear2, Y_nonlinear2 = data[2]
@@ -384,7 +421,14 @@ def plot_linear_and_nonlinear(data, models_correlations, models_mutual_informati
 
 
 def plot_transfer_entropy(N, spikes, models_transfer_entropy):
+    """
+    Replicates figure 6 from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        N (int): Number of spikes.
+        spikes (list): List of spiking vectors.
+        models_transfer_entropy (list): Transfer entropy for each model.
+    """
     spikes_X1, spikes_Y1 = spikes[0]
     spikes_X2, spikes_Y2 = spikes[1]
     spikes_X3, spikes_Y3 = spikes[2]
@@ -497,7 +541,16 @@ def plot_transfer_entropy(N, spikes, models_transfer_entropy):
 
 
 def plot_biases(N, entropy_true, entropy_sampled, mutual_information_true, mutual_information_sampled):
+    """
+    Replicates figure 8 from A Tutorial for Information Theory in Neuroscience.
 
+    Args:
+        N (int): Number of observations.
+        entropy_true (list): True entropy values.
+        entropy_sampled (list): Sampled entropy values.
+        mutual_information_true ([type]): True mutual information values.
+        mutual_information_sampled ([type]): Sampled entropy values.
+    """
     entropy_low_true, entropy_high_true = entropy_true
     entropy_low_sampled, entropy_high_sampled = entropy_sampled
     mutual_information_low_true, mutual_information_high_true = mutual_information_true
