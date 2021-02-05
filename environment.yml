@@ -1,0 +1,9 @@
+name: information-theory
+dependencies:
+  - python=3.6
+  - jupyterlab
+  - pip
+  - pip:
+    - matplotlib==3.3.2
+    - numpy==1.18.5
+    - tqdm==4.45.0
