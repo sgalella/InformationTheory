@@ -6,7 +6,6 @@ Implementation of different information theory measures from [A Tutorial for Inf
 </p>
 
 
-
 ## Installation
 
 To install the dependencies, run the following command:
@@ -15,6 +14,17 @@ To install the dependencies, run the following command:
 pip install -r requirements.txt
 ```
 
+If using Conda, you can also create an environment with the requirements:
+
+```bash
+conda env create -f environment.yml
+```
+
+By default the environment name is `information-theory`. To activate it run:
+
+```bash
+conda activate information-theory
+```
 
 
 ## Usage
