@@ -29,5 +29,5 @@ conda activate information-theory
 
 ## Usage
 
-Open and execute the cells in `InformationTheory.ipynb` from `notebooks/`. 
+Open and execute the cells in `information_theory.ipynb` from `notebooks/`. 
 
